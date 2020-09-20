@@ -92,6 +92,16 @@
 
         //SpriteText constructor: 
         /*https://github.com/vasturiano/three-spritetext*/
+        //need to wrap long text: (from https://stackoverflow.com/questions/14484787/wrap-text-in-javascript) 
+        // Static Width (Plain Regex)
+          const static_wrap = (s, w) => s.replace(
+              /(?![^\n]{1,32}$)([^\n]{1,32})\s/g, '$1\n'
+          );
+
+          // Dynamic Width (Build Regex)
+          const dynamic_wrap = (s, w) => s.replace(
+              new RegExp(`(?![^\\n]{1,${w}}$)([^\\n]{1,${w}})\\s`, 'g'), '$1\n'
+          );
 
         // add text to links:
         const Graph = ForceGraph3D()
@@ -107,7 +117,9 @@
           // maybe see also https://stackoverflow.com/questions/60072100/3d-force-graph-and-three-js-add-geometric-glow-atmospheric-material-simple 
           // extend node with text sprite
           // see https://github.com/vasturiano/three-spritetext/blob/master/example/basic/index.html 
-          const sprite = new SpriteText(`${node.text} `);
+          var thistext = `${node.text} `;
+          var wrapped_text = dynamic_wrap(thistext, 65); 
+          const sprite = new SpriteText(wrapped_text);
           sprite.color = 'rgba(0,0,0, 1.0)';
           sprite.backgroundColor = 'rgba(255,255,255,0.5)';
           sprite.borderColor = 'rgba(238,238,238,1.0)';
@@ -121,7 +133,7 @@
         .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null) // from click to focus on node
         .onNodeClick(node => {
           // Aim at node from outside it
-          const distance = 40;
+          const distance = 140;
           const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
 
           Graph.cameraPosition(
