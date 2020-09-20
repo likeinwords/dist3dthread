@@ -122,15 +122,15 @@
           var wrapped_text = dynamic_wrap(thistext, 50); 
           const sprite = new SpriteText(wrapped_text);
           sprite.color = 'rgba(0,0,0, 1.0)';
-          if (group ==1) {
+          if (group == 1) {
             sprite.backgroundColor = 'rgba(255,255,255,1.0)';
-            sprite.fontSize = 150;
+            sprite.fontSize = '150'; console.log("setting font size to 150");
           }
           else {
             sprite.backgroundColor = 'rgba(255,255,255,0.75)';
-            sprite.fontSize = 80;
+            sprite.fontSize = '80';
           }
-          sprite.fontWeight = 
+          sprite.fontWeight = 'bold';
           sprite.borderColor = 'rgba(238,238,238,1.0)';
           sprite.borderWidth = 0.5;
           sprite.padding = [6, 2];         
@@ -142,12 +142,11 @@
         .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null) // from click to focus on node
         .onNodeClick(node => {
           // Aim at node from outside it
-          const distance = 240;
+          const distance = 180;
           const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
-
           Graph.cameraPosition(
             { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
-            node, // lookAt ({ x, y, z })
+            null, //node, // lookAt ({ x, y, z })
             3000  // ms transition duration
           );
         });
