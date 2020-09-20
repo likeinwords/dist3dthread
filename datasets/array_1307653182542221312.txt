@@ -1,0 +1,15 @@
+aThread {
+  starting_tweet_id: '1307653182542221312',
+  thread_owner_id: '335312037',
+  thread_owner_screen_name: 'Lewis Goodall',
+  threadTweets: [ [length]: 0 ],
+  threadTweetReplies: [ [length]: 0 ],
+  startTweet: 
+   aTweet {
+     tweet_id: '1307653182542221312',
+     in_reply_to_status_id: 0,
+     owner_id: '335312037',
+     owner_name: 'lewis_goodall',
+     owner_screen_name: 'Lewis Goodall',
+     created_at: '2020-09-20T12:09:48.000Z',
+     text: 'More broadly speaking, I’ve spoken to lots of behavioural experts in recent weeks and months and they’ve pretty much all been concerned with the move to “snitching”/punishment over emphasising solidarity and togetherness. Many think emphasising former is counter productive.' } }

@@ -1,0 +1,33 @@
+aThread {
+  starting_tweet_id: '1302291329196724225',
+  thread_owner_id: '69080476',
+  thread_owner_screen_name: 'Jim Pickard',
+  threadTweets: [ [length]: 0 ],
+  threadTweetReplies: 
+   [ [length]: 0,
+     '1302291329196724225': [ aTweet {
+         tweet_id: '1306681926829342720',
+         in_reply_to_status_id: '1302291329196724225',
+         owner_id: '19857165',
+         owner_name: 'seano9909',
+         owner_screen_name: 'seán',
+         created_at: '2020-09-17T19:50:22.000Z',
+         text: '@PickardJE Malvern?' },
+       aTweet {
+         tweet_id: '1306600573731438593',
+         in_reply_to_status_id: '1302291329196724225',
+         owner_id: '1299974394907779072',
+         owner_name: 'AbedinRasel1',
+         owner_screen_name: 'Abedin Rasel',
+         created_at: '2020-09-17T14:27:06.000Z',
+         text: '@PickardJE Do you need to photo editing expert for Hair masking or remove the background of images, Color Correction or natural\nshadow of images? Yes,You are the right place in here.\nSo, please visit my gig and fell free to contact me: https://t.co/twvbYEZV3n' },
+       [length]: 2 ] ],
+  startTweet: 
+   aTweet {
+     tweet_id: '1302291329196724225',
+     in_reply_to_status_id: 0,
+     owner_id: '69080476',
+     owner_name: 'PickardJE',
+     owner_screen_name: 'Jim Pickard',
+     created_at: '2020-09-05T17:03:42.000Z',
+     text: 'this really is a beautiful part of England https://t.co/ezFmCcNqgh' } }
