@@ -12,8 +12,65 @@
 
   <script>
     const elem = document.getElementById('3d-graph');
-    function roundRect(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath(); ctx.fill(); ctx.stroke(); }
-// for nodes as links:
+    /*function roundRect(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath(); ctx.fill(); ctx.stroke(); }
+
+    function makeTextSprite(message, parameters) {
+        if (parameters === undefined) parameters = {};
+        var fontface = parameters.hasOwnProperty("fontface") ? parameters["fontface"] : '"Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif';
+        var fontsize = parameters.hasOwnProperty("fontsize") ? parameters["fontsize"] : 12;
+        var borderThickness = parameters.hasOwnProperty("borderThickness") ? parameters["borderThickness"] : 1;
+        var borderColor = parameters.hasOwnProperty("borderColor") ? parameters["borderColor"] : {
+            r: 0,
+            g: 0,
+            b: 0,
+            a: 1.0
+        };
+        var backgroundColor = parameters.hasOwnProperty("backgroundColor") ? parameters["backgroundColor"] : {
+            r: 255,
+            g: 255,
+            b: 255,
+            a: 1.0
+        };
+        var textColor = parameters.hasOwnProperty("textColor") ? parameters["textColor"] : {
+            r: 0,
+            g: 0,
+            b: 0,
+            a: 1.0
+        };
+
+        var canvas = document.createElement('canvas');
+        var WIDTH = 400;
+        var HEIGHT = 150;
+
+        canvas.width = WIDTH;
+        canvas.height = HEIGHT;
+        var context = canvas.getContext("2d", {alpha:false});
+        context.font = fontsize + "px " + fontface;
+
+        var metrics = context.measureText(message);
+        var textWidth = (metrics.width);
+
+        context.fillStyle = "rgba(" + backgroundColor.r + "," + backgroundColor.g + "," + backgroundColor.b + "," + backgroundColor.a + ")";
+        context.strokeStyle = "rgba(" + borderColor.r + "," + borderColor.g + "," + borderColor.b + "," + borderColor.a + ")";
+
+        context.lineWidth = borderThickness;
+        roundRect(context, borderThickness / 2, borderThickness / 2, (textWidth + borderThickness) * 1.1, fontsize * 1.4 + borderThickness, 8);
+
+        context.fillStyle = "rgba(" + textColor.r + ", " + textColor.g + ", " + textColor.b + ", 1.0)";
+        context.fillText(message, borderThickness, fontsize + borderThickness);
+        var texture = new THREE.Texture(canvas, THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping, THREE.NearestFilter, THREE.NearestFilter);
+        texture.needsUpdate = true;
+        var spriteMaterial = new THREE.SpriteMaterial({
+            map: texture,
+            useScreenCoordinates: false,
+            transparent: false,
+        });
+        var sprite = new THREE.Sprite(spriteMaterial);
+        sprite.scale.set(30, 15, 0);
+        return sprite;
+    }*/
+
+    // for nodes as links:
   /*  const Graph = ForceGraph3D()
       (elem)
         .jsonUrl('datasets/miserables.json')
@@ -32,6 +89,10 @@
           );
         }); */
 
+
+        //SpriteText constructor: 
+        /*https://github.com/vasturiano/three-spritetext*/
+
         // add text to links:
         const Graph = ForceGraph3D()
       (document.getElementById('3d-graph'))
@@ -45,38 +106,11 @@
         .nodeThreeObject(node => { // from https://github.com/vasturiano/3d-force-graph/blob/master/example/text-links/index.html 
           // maybe see also https://stackoverflow.com/questions/60072100/3d-force-graph-and-three-js-add-geometric-glow-atmospheric-material-simple 
           // extend node with text sprite
-          /* const sprite = new SpriteText(`${node.text} `);
-          sprite.color = 'lightgrey';
-          sprite.textHeight = 1.5;*/ 
+          const sprite = new SpriteText(`${node.text} `, 1.5, '#fff', '#000',0,white, '"Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif', 90, Bold, '16px', 1, '#eee' );
+          //sprite.color = 'lightgrey';
+          //sprite.textHeight = 1.5;
           // https://developer.twitter.com/en/docs/twitter-for-websites/embedded-tweets/guides/css-for-embedded-tweets 
-              var fontface = "Arial";
-              var fontsize =  11;
-              var borderThickness =  4;
-              var borderColor =  { r:238, g:238, b:238, a:1.0 };
-              var backgroundColor =  { r:255, g:255, b:255, a:1.0 };
-              var textColor = { r:0, g:0, b:0, a:1.0 };
-              var message = `${node.text} `;
-              var canvas = document.createElement('canvas');
-              var context = canvas.getContext('2d');
-              context.font = "Bold " + fontsize + "px " + fontface;
-              var metrics = context.measureText( message );
-              var textWidth = '150px';
-
-              context.fillStyle   = "rgba(" + backgroundColor.r + "," + backgroundColor.g + "," + backgroundColor.b + "," + backgroundColor.a + ")";
-              context.strokeStyle = "rgba(" + borderColor.r + "," + borderColor.g + "," + borderColor.b + "," + borderColor.a + ")";
-
-              context.lineWidth = borderThickness;
-              roundRect(context, borderThickness/2, borderThickness/2, (textWidth + borderThickness) * 1.1, fontsize * 1.4 + borderThickness, 8);
-
-              context.fillStyle = "rgba("+textColor.r+", "+textColor.g+", "+textColor.b+", 1.0)";
-              context.fillText( message, borderThickness, fontsize + borderThickness);
-
-              var texture = new THREE.Texture(canvas) 
-              texture.needsUpdate = true;
-
-              var spriteMaterial = new THREE.SpriteMaterial( { map: texture, useScreenCoordinates: false } );
-              var sprite = new THREE.Sprite( spriteMaterial );
-              sprite.scale.set(0.5 * fontsize, 0.25 * fontsize, 0.75 * fontsize);
+         
           return sprite;
         })
         .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null) // from click to focus on node
@@ -113,6 +147,40 @@
           Object.assign(sprite.position, middlePos);
         });
         */
+
+        /* 
+         // may need to check doing this in canvas if have > 1000 labels? 
+          // https://stackoverflow.com/questions/23514274/three-js-2d-text-sprite-labels  
+          .nodeThreeObject(node => { 
+              var fontface = "Arial";
+              var fontsize =  11;
+              var borderThickness =  4;
+              var borderColor =  { r:238, g:238, b:238, a:1.0 };
+              var backgroundColor =  { r:255, g:255, b:255, a:1.0 };
+              var textColor = { r:0, g:0, b:0, a:1.0 };
+              var message = `${node.text} `;
+              var canvas = document.createElement('canvas');
+              var context = canvas.getContext('2d');
+              context.font = "Bold " + fontsize + "px " + fontface;
+              var metrics = context.measureText( message );
+              var textWidth = '150px';
+
+              context.fillStyle   = "rgba(" + backgroundColor.r + "," + backgroundColor.g + "," + backgroundColor.b + "," + backgroundColor.a + ")";
+              context.strokeStyle = "rgba(" + borderColor.r + "," + borderColor.g + "," + borderColor.b + "," + borderColor.a + ")";
+
+              context.lineWidth = borderThickness;
+              roundRect(context, borderThickness/2, borderThickness/2, (textWidth + borderThickness) * 1.1, fontsize * 1.4 + borderThickness, 8);
+
+              context.fillStyle = "rgba("+textColor.r+", "+textColor.g+", "+textColor.b+", 1.0)";
+              context.fillText( message, borderThickness, fontsize + borderThickness);
+
+              var texture = new THREE.Texture(canvas) 
+              texture.needsUpdate = true;
+
+              var spriteMaterial = new THREE.SpriteMaterial( { map: texture, useScreenCoordinates: false } );
+              var sprite = new THREE.Sprite( spriteMaterial );
+              sprite.scale.set(0.5 * fontsize, 0.25 * fontsize, 0.75 * fontsize);
+              */
 
     // Spread nodes a little wider
     Graph.d3Force('charge').strength(-120);
