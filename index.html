@@ -38,6 +38,20 @@
         .linkDirectionalArrowLength(3.5)
         .linkDirectionalArrowRelPos(1)
         .linkCurvature(0.25)
+        .nodeThreeObject(node => { // from https://stackoverflow.com/questions/53585646/3d-force-directed-graph-replacing-nodes-with-images 
+          /*var map = new THREE.TextureLoader().load( "https://picsum.photos/100/100/?random" );
+          map.minFilter = THREE.LinearFilter;
+          var material = new THREE.SpriteMaterial( { map: map } );
+          var sprite =  new THREE.Sprite( material );*/
+          var sprite = new THREE.TextSprite({
+                      text: 'Hello World!',
+                      fontFamily: 'Arial, Helvetica, sans-serif',
+                      fontSize: 12,
+                      fillColor: '#ffbbff',
+                    });
+          sprite.scale.set(32,32,1);
+          return sprite;
+        })
         .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null) // from click to focus on node
         .onNodeClick(node => {
           // Aim at node from outside it
