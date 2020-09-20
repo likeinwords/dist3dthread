@@ -118,10 +118,20 @@
           // extend node with text sprite
           // see https://github.com/vasturiano/three-spritetext/blob/master/example/basic/index.html 
           var thistext = `${node.text} `;
-          var wrapped_text = dynamic_wrap(thistext, 65); 
+          var group = `${node.group} `;
+          var wrapped_text = dynamic_wrap(thistext, 45); 
           const sprite = new SpriteText(wrapped_text);
           sprite.color = 'rgba(0,0,0, 1.0)';
-          sprite.backgroundColor = 'rgba(255,255,255,0.5)';
+          if (group ==1) {
+            sprite.backgroundColor = 'rgba(255,255,255,1.0)';
+            sprite.fontSize = 18;
+          }
+          else {
+            sprite.backgroundColor = 'rgba(255,255,255,0.5)';
+            sprite.fontSize = 11;
+ 
+          }
+          sprite.fontWeight = 
           sprite.borderColor = 'rgba(238,238,238,1.0)';
           sprite.borderWidth = 0.5;
           sprite.padding = [6, 2];         
@@ -133,7 +143,7 @@
         .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null) // from click to focus on node
         .onNodeClick(node => {
           // Aim at node from outside it
-          const distance = 140;
+          const distance = 240;
           const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
 
           Graph.cameraPosition(
