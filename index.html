@@ -119,16 +119,16 @@
           // see https://github.com/vasturiano/three-spritetext/blob/master/example/basic/index.html 
           var thistext = `${node.text} `;
           var group = `${node.group} `;
-          var wrapped_text = dynamic_wrap(thistext, 45); 
+          var wrapped_text = dynamic_wrap(thistext, 50); 
           const sprite = new SpriteText(wrapped_text);
           sprite.color = 'rgba(0,0,0, 1.0)';
           if (group ==1) {
             sprite.backgroundColor = 'rgba(255,255,255,1.0)';
-            sprite.fontSize = 150;
+            sprite.fontSize = '18px';
           }
           else {
             sprite.backgroundColor = 'rgba(255,255,255,0.75)';
-            sprite.fontSize = 80;
+            sprite.fontSize = '11px';
           }
           sprite.fontWeight = 
           sprite.borderColor = 'rgba(238,238,238,1.0)';
