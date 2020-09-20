@@ -42,8 +42,9 @@
         .linkCurvature(0.25)
         .nodeThreeObjectExtend(true)
         .nodeThreeObject(node => { // from https://github.com/vasturiano/3d-force-graph/blob/master/example/text-links/index.html 
-           // extend node with text sprite
-           const sprite = new SpriteText(`${link.text} `);
+          // maybe see also https://stackoverflow.com/questions/60072100/3d-force-graph-and-three-js-add-geometric-glow-atmospheric-material-simple 
+          // extend node with text sprite
+           const sprite = new SpriteText(`${node.text} `);
           sprite.color = 'lightgrey';
           sprite.textHeight = 1.5;
           return sprite;
