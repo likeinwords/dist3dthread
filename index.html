@@ -221,7 +221,7 @@
             const Graph = ForceGraph()
             (document.getElementById('2d-graph'))
             .graphData(data)
-              .nodeCanvasObject((node, ctx, globalScale) => {
+             /* .nodeCanvasObject((node, ctx, globalScale) => {
                   const label =   dynamic_wrap(node.text, 50);
                   const fontSize = 12/globalScale;
                   ctx.font = `${fontSize}px Sans-Serif`;
@@ -235,7 +235,7 @@
                   ctx.textBaseline = 'middle';
                   ctx.fillStyle = node.color;
                   ctx.fillText(label, node.x, node.y);
-                })
+                })*/
               .nodeLabel('id')
               .nodeAutoColorBy('group')
               .linkSource('source')
