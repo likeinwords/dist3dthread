@@ -8,7 +8,9 @@
 </head>
 
 <body>
+  <div id='controls'> <button id="2d">2D</button>  <button id="3d">3D</button></div>
   <div id="3d-graph"></div>
+  <div id="2d-graph" ></div>
 
   <script>
     const elem = document.getElementById('3d-graph');
@@ -207,13 +209,37 @@
               sprite.scale.set(0.5 * fontsize, 0.25 * fontsize, 0.75 * fontsize);
               */
 
-    // Spread nodes a little wider
-    //Graph.d3Force('charge').strength(-120);
-            (document.getElementById('3d-graph'))
-              .cooldownTicks(100)
-              .graphData(gData);
+          // Spread nodes a little wider
+          Graph.d3Force('charge').strength(-120);
 
           // fit to canvas when engine stops
           Graph.onEngineStop(() => Graph.zoomToFit(400));
+
+
+          fetch('datasets/array_1307652180397170689.json').then(res => res.json()).then(data => {
+            const Graph = ForceGraph()
+            (document.getElementById('2d-graph'))
+            .graphData(data)
+              .nodeCanvasObject((node, ctx, globalScale) => {
+                  const label = node.text;
+                  const fontSize = 12/globalScale;
+                  ctx.font = `${fontSize}px Sans-Serif`;
+                  const textWidth = ctx.measureText(label).width;
+                  const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+
+                  ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                  ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
+
+                  ctx.textAlign = 'center';
+                  ctx.textBaseline = 'middle';
+                  ctx.fillStyle = node.color;
+                  ctx.fillText(label, node.x, node.y);
+                })
+              .nodeLabel('id')
+              .nodeAutoColorBy('group')
+              .linkSource('source')
+              .linkTarget('target');
+            });
+
   </script>
 </body>
