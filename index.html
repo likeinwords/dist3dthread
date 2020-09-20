@@ -109,8 +109,8 @@
         .jsonUrl('datasets/array_1307652180397170689.json')
         .nodeLabel('id')
         .nodeAutoColorBy('group')
-        .linkDirectionalArrowLength(3.5)
-        .linkDirectionalArrowRelPos(1)
+        //.linkDirectionalArrowLength(5.5)
+        //.linkDirectionalArrowRelPos(1)
         .linkCurvature(0.25)
         .nodeThreeObjectExtend(false)  //set to replace existing default object
         .nodeThreeObject(node => { // from https://github.com/vasturiano/3d-force-graph/blob/master/example/text-links/index.html 
@@ -124,12 +124,11 @@
           sprite.color = 'rgba(0,0,0, 1.0)';
           if (group ==1) {
             sprite.backgroundColor = 'rgba(255,255,255,1.0)';
-            sprite.fontSize = 18;
+            sprite.fontSize = 150;
           }
           else {
-            sprite.backgroundColor = 'rgba(255,255,255,0.5)';
-            sprite.fontSize = 11;
- 
+            sprite.backgroundColor = 'rgba(255,255,255,0.75)';
+            sprite.fontSize = 80;
           }
           sprite.fontWeight = 
           sprite.borderColor = 'rgba(238,238,238,1.0)';
