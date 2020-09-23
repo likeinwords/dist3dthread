@@ -1,97 +1,22 @@
 <head>
   <style> body { margin: 0; } </style>
 
+  <!--<script src="//unpkg.com/3d-force-graph-vr"></script>
+  <script src="//unpkg.com/three-spritetext"></script>-->
   <script src="js/three.js"></script>
   <script src="js/three-spritetext.min.js"></script>
-  <script src="js/3d-force-graph.js"></script>
- 
-  <!--<script src="../../dist/3d-force-graph.js"></script>-->
+  <script src="js/3d-force-graph-vr.min.js"></script>
+  
 </head>
 
 <body>
   <div id='controls' style="display:flex;flex-direction:row;justify-content:space-evenly;align-items:center;"> <div style="order:1;"><a href="2d.html">2D-view</a> </div><div style="order:2;"><a href="index.html">3D-view</a>  </div>  <div style="order:3;"><a href="time.html">time animation</a>  </div> <div style="order:4;"><a href="ar.html">AR view</a>  </div>  <div style="order:5;"><a href="vr.html">VR view</a>  </div></div>
   <div id="3d-graph"></div>
   
-
   <script>
     const elem = document.getElementById('3d-graph');
     var first = true;
-    /*function roundRect(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath(); ctx.fill(); ctx.stroke(); }
-
-    function makeTextSprite(message, parameters) {
-        if (parameters === undefined) parameters = {};
-        var fontface = parameters.hasOwnProperty("fontface") ? parameters["fontface"] : '"Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif';
-        var fontsize = parameters.hasOwnProperty("fontsize") ? parameters["fontsize"] : 12;
-        var borderThickness = parameters.hasOwnProperty("borderThickness") ? parameters["borderThickness"] : 1;
-        var borderColor = parameters.hasOwnProperty("borderColor") ? parameters["borderColor"] : {
-            r: 0,
-            g: 0,
-            b: 0,
-            a: 1.0
-        };
-        var backgroundColor = parameters.hasOwnProperty("backgroundColor") ? parameters["backgroundColor"] : {
-            r: 255,
-            g: 255,
-            b: 255,
-            a: 1.0
-        };
-        var textColor = parameters.hasOwnProperty("textColor") ? parameters["textColor"] : {
-            r: 0,
-            g: 0,
-            b: 0,
-            a: 1.0
-        };
-
-        var canvas = document.createElement('canvas');
-        var WIDTH = 400;
-        var HEIGHT = 150;
-
-        canvas.width = WIDTH;
-        canvas.height = HEIGHT;
-        var context = canvas.getContext("2d", {alpha:false});
-        context.font = fontsize + "px " + fontface;
-
-        var metrics = context.measureText(message);
-        var textWidth = (metrics.width);
-
-        context.fillStyle = "rgba(" + backgroundColor.r + "," + backgroundColor.g + "," + backgroundColor.b + "," + backgroundColor.a + ")";
-        context.strokeStyle = "rgba(" + borderColor.r + "," + borderColor.g + "," + borderColor.b + "," + borderColor.a + ")";
-
-        context.lineWidth = borderThickness;
-        roundRect(context, borderThickness / 2, borderThickness / 2, (textWidth + borderThickness) * 1.1, fontsize * 1.4 + borderThickness, 8);
-
-        context.fillStyle = "rgba(" + textColor.r + ", " + textColor.g + ", " + textColor.b + ", 1.0)";
-        context.fillText(message, borderThickness, fontsize + borderThickness);
-        var texture = new THREE.Texture(canvas, THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping, THREE.NearestFilter, THREE.NearestFilter);
-        texture.needsUpdate = true;
-        var spriteMaterial = new THREE.SpriteMaterial({
-            map: texture,
-            useScreenCoordinates: false,
-            transparent: false,
-        });
-        var sprite = new THREE.Sprite(spriteMaterial);
-        sprite.scale.set(30, 15, 0);
-        return sprite;
-    }*/
-
-    // for nodes as links:
-  /*  const Graph = ForceGraph3D()
-      (elem)
-        .jsonUrl('datasets/miserables.json')
-        .nodeLabel('id')
-        .nodeAutoColorBy('group')
-        .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null)
-        .onNodeClick(node => {
-          // Aim at node from outside it
-          const distance = 40;
-          const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
-
-          Graph.cameraPosition(
-            { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
-            node, // lookAt ({ x, y, z })
-            3000  // ms transition duration
-          );
-        }); */
+    // https://github.com/vasturiano/3d-force-graph-vr
 
 
         //SpriteText constructor: 
@@ -108,7 +33,7 @@
           );
 
         // add text to links:
-        const Graph = ForceGraph3D({ controlType: 'orbit' })
+        const Graph = ForceGraphVR()
       (document.getElementById('3d-graph'))
         .jsonUrl('datasets/array_1307652180397170689.json')
         .nodeLabel('id')
@@ -143,7 +68,7 @@
          
           return sprite;
         })
-        .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null) // from click to focus on node
+        /*.onNodeHover(node => elem.style.cursor = node ? 'pointer' : null) // from click to focus on node
         .onNodeClick(node => {
           // Aim at node from outside it
           const distance = 180;
@@ -153,7 +78,7 @@
             null, //node, // lookAt ({ x, y, z })
             3000  // ms transition duration
           );
-        });
+        })*/;
         
         
         /* // from text as links, but breaks sometimes when click on text node :( 
@@ -215,10 +140,11 @@
           Graph.d3Force('charge').strength(-120);
 
           // fit to canvas when engine stops first time
-          if (first){
+          /*if (first){
             Graph.onEngineStop(() => Graph.zoomToFit(400));
             first = false;
-          }
+          }*/
+
 
   </script>
 </body>

@@ -1,17 +1,17 @@
 <head>
   <style> body { margin: 0; } </style>
 
-  <script src="js/three.js"></script>
-  <script src="js/three-spritetext.min.js"></script>
-  <script src="js/3d-force-graph.js"></script>
- 
+  <script src="three.js"></script>
+  <script src="three-spritetext.min.js"></script>
+  <script src="3d-force-graph.js"></script>
+
   <!--<script src="../../dist/3d-force-graph.js"></script>-->
 </head>
 
 <body>
   <div id='controls' style="display:flex;flex-direction:row;justify-content:space-evenly;align-items:center;"> <div style="order:1;"><a href="2d.html">2D-view</a> </div><div style="order:2;"><a href="index.html">3D-view</a>  </div>  <div style="order:3;"><a href="time.html">time animation</a>  </div> <div style="order:4;"><a href="ar.html">AR view</a>  </div>  <div style="order:5;"><a href="vr.html">VR view</a>  </div></div>
   <div id="3d-graph"></div>
-  
+  <div id="2d-graph" style='background-color:black'></div>
 
   <script>
     const elem = document.getElementById('3d-graph');
@@ -215,10 +215,20 @@
           Graph.d3Force('charge').strength(-120);
 
           // fit to canvas when engine stops first time
-          if (first){
+          /*if (first){
             Graph.onEngineStop(() => Graph.zoomToFit(400));
             first = false;
-          }
+          }*/
+
+
+    setInterval(() => {
+      const { nodes, links } = Graph.graphData();
+      const id = nodes.length;
+      Graph.graphData({
+        nodes: [...nodes, { id }],
+        links: [...links, { source: id, target: Math.round(Math.random() * (id-1)) }]
+      });
+    }, 1000);
 
   </script>
 </body>

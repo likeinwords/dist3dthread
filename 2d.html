@@ -1,0 +1,44 @@
+<head>
+  <style> body { margin: 0; } </style>
+
+ <!--<script src="three.js"></script>
+  <script src="three-spritetext.min.js"></script>--> 
+ 
+  <script src="js/force-graph.min.js"></script>
+  <!--<script src="../../dist/3d-force-graph.js"></script>-->
+</head>
+
+<body>
+  <div id='controls' style="display:flex;flex-direction:row;justify-content:space-evenly;align-items:center;"> <div style="order:1;"><a href="2d.html">2D-view</a> </div><div style="order:2;"><a href="index.html">3D-view</a>  </div>  <div style="order:3;"><a href="time.html">time animation</a>  </div> <div style="order:4;"><a href="ar.html">AR view</a>  </div>  <div style="order:5;"><a href="vr.html">VR view</a>  </div></div>
+
+  <div id="2d-graph" style='background-color:black'></div>
+
+  <script>
+    
+          fetch('datasets/array_1307652180397170689.json').then(res => res.json()).then(data => {
+            const Graph = ForceGraph()
+            (document.getElementById('2d-graph'))
+            .graphData(data)
+             /* .nodeCanvasObject((node, ctx, globalScale) => {
+                  const label =   dynamic_wrap(node.text, 50);
+                  const fontSize = 12/globalScale;
+                  ctx.font = `${fontSize}px Sans-Serif`;
+                  const textWidth = ctx.measureText(label).width;
+                  const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+
+                  ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                  ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
+
+                  ctx.textAlign = 'center';
+                  ctx.textBaseline = 'middle';
+                  ctx.fillStyle = node.color;
+                  ctx.fillText(label, node.x, node.y);
+                })*/
+              .nodeLabel('id')
+              .nodeAutoColorBy('group')
+              .linkSource('source')
+              .linkTarget('target');
+            });
+
+  </script>
+</body>
